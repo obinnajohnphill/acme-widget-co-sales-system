@@ -70,7 +70,7 @@ if(!empty($_GET["action"])) {
                 $sub_total += ($item["price"]*$item["quantity"]);
                 $product = new DeliveryCostController($sub_total);
                 $delivery_cost = $product->calculateDeliveryCost($sub_total);
-                $total_price += ($delivery_cost+$sub_total);
+                $total_price = $delivery_cost+$sub_total;
 
             }
             ?>
