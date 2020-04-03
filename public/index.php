@@ -3,8 +3,8 @@
 session_start();
 
 require_once('../Models/ProductModel.php');
-
 require_once('../Controllers/ProductController.php');
+require_once('../Controllers/DeliveryCostController.php');
 
 $product = new ProductController();
 
@@ -65,14 +65,25 @@ if(!empty($_GET["action"])) {
                     <td style="text-align:center;"><a href="index.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="icon-delete.png" alt="Remove Item" /></a></td>
                 </tr>
                 <?php
+
                 $total_quantity += $item["quantity"];
-                $total_price += ($item["price"]*$item["quantity"]);
+                $sub_total += ($item["price"]*$item["quantity"]);
+                $product = new DeliveryCostController($sub_total);
+                $delivery_cost = $product->calculateDeliveryCost($sub_total);
+                $total_price += ($delivery_cost+$sub_total);
+
             }
             ?>
+            <tr>
+                <td colspan="2" align="right">Delivery Cost:</td>
+                <td align="right">1</td>
+                <td align="right" colspan="2"><?php echo "$ ".number_format($delivery_cost, 2); ?></td>
+                <td></td>
+            </tr>
 
             <tr>
                 <td colspan="2" align="right">Total:</td>
-                <td align="right"><?php echo $total_quantity; ?></td>
+                <td align="right"><?php echo $total_quantity + 1; ?></td>
                 <td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong></td>
                 <td></td>
             </tr>

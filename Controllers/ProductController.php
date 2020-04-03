@@ -5,7 +5,6 @@
  *
  */
 
-
 class ProductController extends ProductModel
 {
 
