@@ -5,9 +5,9 @@ session_start();
 require_once('../Models/ProductModel.php');
 require_once('../Controllers/ProductController.php');
 require_once('../Controllers/DeliveryCostController.php');
+require_once('../Controllers/SpecialOfferController.php');
 
 $product = new ProductController();
-
 if(!empty($_GET["action"])) {
 
     switch($_GET["action"]) {
@@ -54,7 +54,14 @@ if(!empty($_GET["action"])) {
             </tr>
             <?php
             foreach ($_SESSION["cart_item"] as $item){
-                $item_price = $item["quantity"]*$item["price"];
+                if ($item["code"] == "RO1"){
+                    $code = $item["code"]; $quantity = $item["quantity"]; $price = $item["price"];
+                    $offer = new SpecialOfferController($code, $quantity,$price);
+                    $unit_price = $offer->calculateSpecialOffer($code, $quantity,$price);
+                    $item_price = 1 * $unit_price[0];
+                }else{
+                    $item_price = $item["quantity"]*$item["price"];
+                }
                 ?>
                 <tr>
                     <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?></td>
@@ -70,7 +77,7 @@ if(!empty($_GET["action"])) {
                 $sub_total += ($item["price"]*$item["quantity"]);
                 $product = new DeliveryCostController($sub_total);
                 $delivery_cost = $product->calculateDeliveryCost($sub_total);
-                $total_price = $delivery_cost+$sub_total;
+                $total_price = $delivery_cost+ ($sub_total  - $unit_price[1]);
 
             }
             ?>
