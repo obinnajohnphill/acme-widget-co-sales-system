@@ -1,9 +1,8 @@
 ##Usage Info
 
-* Update database connection: Models/DatabaseConnection class
+* Create database:
+Import sql file: product_table.sql or Copy and RUN SQL statements
 
-* Create table:
+* Update database connection details: Models/DatabaseConnection class
 
-Import sql file: product_table.sql
-
-* Application entry point: <base_directory>/public
+* Application entry point: <base_directory>/Public
