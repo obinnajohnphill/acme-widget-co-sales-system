@@ -58,7 +58,7 @@ if(!empty($_GET["action"])) {
                     $code = $item["code"]; $quantity = $item["quantity"]; $price = $item["price"];
                     $offer = new SpecialOfferController($code, $quantity,$price);
                     $unit_price = $offer->calculateSpecialOffer($code, $quantity,$price);
-                    $item_price = 1 * $unit_price[0];
+                    $item_price = 1 * $unit_price;
                 }else{
                     $item_price = $item["quantity"]*$item["price"];
                 }
@@ -74,10 +74,10 @@ if(!empty($_GET["action"])) {
                 <?php
 
                 $total_quantity += $item["quantity"];
-                $sub_total += ($item["price"]*$item["quantity"]);
+                $sub_total += $item_price;
                 $product = new DeliveryCostController($sub_total);
                 $delivery_cost = $product->calculateDeliveryCost($sub_total);
-                $total_price = $delivery_cost+ ($sub_total  - $unit_price[1]);
+                $total_price = ($delivery_cost + $sub_total);
 
             }
             ?>

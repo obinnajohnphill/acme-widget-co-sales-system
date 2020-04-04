@@ -28,15 +28,15 @@ class SpecialOfferController
         if ($code == "RO1" and $quantity % 2 == 0 ) {
             $real = ($quantity / 2) * $price;
             $half = ($quantity / 2) * ($price / 2);
-            $total = $real+$half;
-            return array($total,$half);
+            $total = $real + $half;
+            return $total;
 
         } else {
             $quantity = $quantity - 1;
             $real = ($quantity / 2) * $price;
             $half = ($quantity / 2) * ($price/2);
-            $total = $real+$half+$price;
-            return array($total,$half);
+            $total = $real + $half + $price;
+            return $total;
         }
     }
 
